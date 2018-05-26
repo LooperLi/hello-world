@@ -168,7 +168,7 @@ lazyman1111111
 		
 	5）定义常量
 	   1-#define 预处理器  宏
-       2-const 关键字
+       2-const   关键字
 	   
 六：存储类
 	1）auto 存储类：所有局部变量默认的存储类。
@@ -231,7 +231,342 @@ lazyman1111111
 
 
 
+九：循环
+	循环类型
+	1）while
+	2）for
+	3）do..while
+	
+	循环控制语句
+	1）break       跳出循环
+	2）continue    跳出本次循环
+	3）goto        跳到被标记的语句
+	
+	
+十：函数
+	每个 C 程序都至少有一个函数，即主函数 main() ，所有简单的程序都可以定义其他额外的函数。
+	1）函数声明告诉编译器函数的名称、返回类型和参数。
+	2）函数定义提供了函数的实际主体。
+	
+	函数参数调用
+	1）传值调用   ---不会改变实参的值
+	2）引用调用   ---可能会改变实参的值
+	
+	
+十一：作用域规则
+     即程序中变量可以被访问的区域。
+	1）在函数或块内部的局部变量
+	2）在所有函数外部的全局变量
+	3）在形式参数的函数参数定义中
+	
+	*在程序中，局部变量和全局变量的名称可以相同，但是在函数内，局部变量的值会覆盖全局变量的值
+	
+	*函数的参数，形式参数，被当作该函数内的局部变量，它们会优先覆盖全局变量。
+	
+	C 的形参与实参
+			在 C 语言中，形参与实参虽然很简单，但是，是大家比较容易混淆的一个点，这里将为大家详细的讲解。 
+			概念：从字面上理解，所谓形式参数即只只是声明了一个作为参数的变量，并未直接进行赋值使用，而实际参数则相反。
+			
+	#include <stdio.h>
 
+	int test(int,int); // 形参，只声明
+
+	int main()
+	{
+		int a,b;
+		printf("%d",test(5,3)); // 实参，已赋值
+	}
+
+	int test(int a,int b) // 形参
+	{
+		a=a+b;
+		return a;
+	}
+	
+	
+十二：数组
+     1）声明数组：需要指定元素的类型和元素的数量
+			double balance[10];
+	 2）初始化数组：
+	 
+	 
+	 --多维数组
+			type name[size1][size2]...[sizeN];
+			
+	        --二维数组
+			1）初始化二维数组
+			int a[3][4] =   {  
+							 {0, 1, 2, 3} ,   /*  初始化索引号为 0 的行 */
+							 {4, 5, 6, 7} ,   /*  初始化索引号为 1 的行 */
+							 {8, 9, 10, 11}   /*  初始化索引号为 2 的行 */
+							};		
+	
+			
+			int a[3][4] = {0,1,2,3,4,5,6,7,8,9,10,11};
+			
+			2）访问二维数组元素
+			int val = a[2][3];
+			
+			
+	--传递数组给函数
+			1）方式 1
+			形式参数是一个指针：
+			void myFunction(int *param)
+			{
+				....
+			}
+			
+			2）方式 2
+			形式参数是一个已定义大小的数组：
+			void myFunction(int param[10])
+			{
+				.....
+			}
+			
+			3）方式 3
+			形式参数是一个未定义大小的数组：
+			void myFunction(int param[])
+			{
+				.....
+			}
+			
+	
+	--从函数返回数组
+			想要从函数返回一个一维数组，您必须声明一个返回指针的函数
+			int * myFunction()
+			{
+				....
+			}
+			
+			
+	--指向数组的指针
+			double *p;
+			double balance[10];
+
+			p = balance;
+	
+	
+	
+十三：指针
+		指针是一个变量，其值为另一个变量的地址，即，内存位置的直接地址
+		--动态内存分配，没有指针是无法执行的
+	
+		1）指针的算术运算
+			1：指针的移动
+		       ptr++ ：指针递增，地址后移的字节数取决于它的指针类型，如果是int的话就要后移4字节，如果是字节的话就要后移一个字节。
+			2：指针的比较
+			   指针可以通过比较大小来判断指针指向数据再数组的位置先后
+			   
+			   
+			   
+			   
+		2）指针数组
+			1：指向整数的数组
+			int *ptr[MAX];
+			
+			实例：
+					#include <stdio.h>
+					 
+					const int MAX = 3;
+					 
+					int main ()
+					{
+					   int  var[] = {10, 100, 200};
+					   int i, *ptr[MAX];
+					 
+					   for ( i = 0; i < MAX; i++)
+					   {
+						  ptr[i] = &var[i]; /* 赋值为整数的地址 */
+					   }
+					   for ( i = 0; i < MAX; i++)
+					   {
+						  printf("Value of var[%d] = %d\n", i, *ptr[i] );
+					   }
+					   return 0;
+					}
+					
+					
+			2：指向字符的数组
+			实例
+					#include <stdio.h>
+					 
+					const int MAX = 4;
+					 
+					int main ()
+					{
+					   const char *names[] = {
+									   "Zara Ali",
+									   "Hina Ali",
+									   "Nuha Ali",
+									   "Sara Ali",
+					   };
+					   int i = 0;
+					 
+					   for ( i = 0; i < MAX; i++)
+					   {
+						  printf("Value of names[%d] = %s\n", i, names[i] );
+					   }
+					   return 0;
+					}
+					
+					
+					
+					
+		3）指向指针的指针
+			--指向指针的指针是一种多级间接寻址的形式，或者说是一个指针链
+	
+					#include <stdio.h>
+				 
+					int main ()
+					{
+					   int  var;
+					   int  *ptr;
+					   int  **pptr;
+
+					   var = 3000;
+
+					   /* 获取 var 的地址 */
+					   ptr = &var;
+
+					   /* 使用运算符 & 获取 ptr 的地址 */
+					   pptr = &ptr;
+
+					   /* 使用 pptr 获取值 */
+					   printf("Value of var = %d\n", var );
+					   printf("Value available at *ptr = %d\n", *ptr );
+					   printf("Value available at **pptr = %d\n", **pptr);
+
+					   return 0;
+					}
+	
+		4）传递指针给函数
+			--传递指针给函数，只需要简单地声明函数参数为指针类型即可
+			
+		5）从函数返回指针
+		    --C 语言不支持在调用函数时返回局部变量的地址，除非定义局部变量为 static 变量。
+	
+	
+						#include <stdio.h>
+						#include <time.h>
+						#include <stdlib.h> 
+
+						/* 要生成和返回随机数的函数 */
+						int * getRandom( )
+						{
+						   static int  r[10];
+						   int i;
+						 
+						   /* 设置种子 */
+						   srand( (unsigned)time( NULL ) );
+						   for ( i = 0; i < 10; ++i)
+						   {
+							  r[i] = rand();
+							  printf("%d\n", r[i] );
+						   }
+						 
+						   return r;
+						}
+						 
+						/* 要调用上面定义函数的主函数 */
+						int main ()
+						{
+						   /* 一个指向整数的指针 */
+						   int *p;
+						   int i;
+
+						   p = getRandom();
+						   for ( i = 0; i < 10; i++ )
+						   {
+							   printf("*(p + [%d]) : %d\n", i, *(p + i) );
+						   }
+						 
+						   return 0;
+						}
+	
+	
+十四：函数指针
+		--函数指针是指向函数的指针变量。
+	
+			实例
+						#include <stdio.h>
+						 
+						int max(int x, int y)
+						{
+							return x > y ? x : y;
+						}
+						 
+						int main(void)
+						{
+							/* p 是函数指针 */
+							int (* p)(int, int) = & max; // &可以省略
+							int a, b, c, d;
+						 
+							printf("请输入三个数字:");
+							scanf("%d %d %d", & a, & b, & c);
+						 
+							/* 与直接调用函数等价，d = max(max(a, b), c) */
+							d = p(p(a, b), c); 
+						 
+							printf("最大的数字是: %d\n", d);
+						 
+							return 0;
+						}
+十五：回调函数
+		--函数指针作为某个函数的参数
+		
+						#include <stdlib.h>  
+						#include <stdio.h>
+						 
+						// 回调函数
+						void populate_array(int *array, size_t arraySize, int (*getNextValue)(void))
+						{
+							for (size_t i=0; i<arraySize; i++)
+								array[i] = getNextValue();
+						}
+						 
+						// 获取随机值
+						int getNextRandomValue(void)
+						{
+							return rand();
+						}
+						 
+						int main(void)
+						{
+							int myarray[10];
+							populate_array(myarray, 10, getNextRandomValue);
+							for(int i = 0; i < 10; i++) {
+								printf("%d ", myarray[i]);
+							}
+							printf("\n");
+							return 0;
+						}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 
 
