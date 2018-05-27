@@ -542,29 +542,365 @@ lazyman1111111
 						}
 	
 	
+					//size_t 是一种数据类型，近似于无符号整型，但容量范围一般大于 int 和 unsigned。
+					         这里使用 size_t 是为了保证 arraysize 变量能够有足够大的容量来储存可能大的数组
+							 
+							 
+十六：字符串
+		--字符串实际上是使用 null 字符 '\0' 终止的一维字符数组
+		
+		1）操作字符串的函数
+			strcpy(s1, s2);//string copy 
+                 复制字符串 s2 到字符串 s1。
+				 
+			strcat(s1, s2);//string catenate
+				 连接字符串 s2 到字符串 s1 的末尾。
+				 
+			strlen(s1); //string length 
+				 返回字符串 s1 的长度。
+				 
+			strcmp(s1, s2);//string compare
+				 如果 s1 和 s2 是相同的，则返回 0；如果 s1<s2 则返回小于 0；如果 s1>s2 则返回大于 0。
+				 
+			strchr(s1, ch);
+				 返回一个指针，指向字符串 s1 中字符 ch 的第一次出现的位置。
+				 
+						#include <stdio.h>  
+						#include <conio.h>  
+						#include <string.h>  
+						#pragma warning (disable:4996)  
+						int main(void)  
+						{  
+							char string[17];  
+							char *ptr;  
+							char c='T';  
+							strcpy(string,"This is a string");  
+							ptr=strchr(string,c);  
+							if (ptr)  
+							{  
+								printf("The character %c is at position:%d\n",c,ptr-string);  
+							}  
+							else  
+							{  
+								printf("The character was not found\n");  
+							}  
+							getch();   //https://blog.csdn.net/yujar/article/details/23663975
+							return 0;  
+						} 
+						
+						
+			strstr(s1, s2);
+				 返回一个指针，指向字符串 s1 中字符串 s2 的第一次出现的位置。
+				 注意：如果s1中有s2出现，则再使用返回的地址之前，不要改变s1的内容，否则会出错
+				 
+			strlwr: //string lowercase 
+						strlwr()用于将字符串中的字符转换为小写，其原型为：
+						char *strlwr(char *str);
+						【参数说明】str为要转换的字符串。
+						【返回值】返回转换后的小写字符串，其实就是将str返回。
+						 也就是说，strlwr() 不会创建一个新字符串返回，而是改变原有字符串。
+						 所以strlwr()只能操作字符数组，而不能操作指针字符串，因为指针指向的字符串是作为常量保存在静态存储区的，常量不能被修改
+						 
+						 下面给出一个自定义的函数示例： 
+
+							#include <ctype.h>
+							char *strupr(char *str)
+							{
+								char *orign=str;
+								for (; *str!='\0 '; str++)
+								*str = tolowwer(*str);
+								return orign;
+							}
+						 【函数示例】将字符串转换为小写。 
+
+							#include<stdio.h>
+							#include<string.h>
+
+							int main()
+							{
+								char str[] = "HTTP://see.xidian.edu.cn/cpp/u/shipin/";
+								printf("%s\n", strlwr(str));
+								printf("%s\n", str);
+								return 0;
+							}
+						 
+						 运行结果：
+							http://see.xidian.edu.cn/cpp/u/shipin/
+							http://see.xidian.edu.cn/cpp/u/shipin/
+						 
+					
+						 
+			strupr: string upercase
+						strupr函数用来将指向的字符串全部转换为大写的形式
+						    // 字符全部转换为大写  
+							char* _strupr_d(char* src)  
+							{  
+								while (*src != '\0')  
+								{  
+									if (*src >= 'a' && *src <= 'z')  
+										//在ASCII表里大写字符的值比对应小写字符的值小32.  
+										//*p -= 0x20; // 0x20的十进制就是32  
+										*src -= 32;  
+									src++;  
+								}  
+								return src;  
+							}  
+			
+			【C语言字符串指针与字符数组的区别】
+			        1） 字符数组是一个数组，每个元素的值都可以改变。
+					    字符串指针指向的是一个常量字符串，它被存放在程序的静态数据区，一旦定义就不能改变。这是最重要的区别。
+						
+						下面的代码在运行期间将会出错： 
+							#include <stdio.h>
+
+							int main()
+							{
+								char str1[] = "C Language";
+								char *str2 = "C Language";
+								str1[1] = '-';
+								*(str2+1) = '-';  //错！不能改变字符串常量的值
+								printf("str1 = %s\n", str1);
+
+								return 0;
+							}
+							
+					2） 对字符串指针方式： 
+						char *ps="C Language";
+						可以写为： 
+						char *ps;
+						ps="C Language";
+						
+						
+						而对数组方式： 
+						char st[]={"C Language"};
+						不能写为： 
+						char st[20];
+						st={"C Language"};
+					
+					
+十七：结构体
+		--结构是 C 编程中另一种用户自定义的可用的数据类型，它允许您存储不同类型的数据项。
+			1）tag 是结构体标签
+					struct tag 
+					{ 
+						member-list
+						member-list 
+						member-list  
+						...
+					} variable-list ;
+					
+					struct Books
+					{
+					   char  title[50];
+					   char  author[50];
+					   char  subject[100];
+					   int   book_id;
+					} book;
+	
+				//此声明声明了拥有3个成员的结构体，分别为整型的a，字符型的b和双精度的c
+				//同时又声明了结构体变量s1
+				//这个结构体并没有标明其标签
+				struct 
+				{
+					int a;
+					char b;
+					double c;
+				} s1;
+				 
+				//此声明声明了拥有3个成员的结构体，分别为整型的a，字符型的b和双精度的c
+				//结构体的标签被命名为SIMPLE,没有声明变量
+				struct SIMPLE
+				{
+					int a;
+					char b;
+					double c;
+				};
+				//用SIMPLE标签的结构体，另外声明了变量t1、t2、t3
+				struct SIMPLE t1, t2[20], *t3;
+				 
+				//也可以用typedef创建新类型
+				typedef struct
+				{
+					int a;
+					char b;
+					double c; 
+				} Simple2;
+				//现在可以用Simple2作为类型声明新的结构体变量
+				Simple2 u1, u2[20], *u3;
 	
 	
+			2）位域
+					有些信息在存储时，并不需要占用一个完整的字节，而只需占几个或一个二进制位
+					
+					----位域的定义和位域变量的说明
+						位域定义与结构定义相仿，其形式为：
+						struct 位域结构名 
+						{
+
+						 位域列表
+
+						};
+						
+						struct bs
+						{
+							int a:8;
+							int b:2;
+							int c:6;
+						}data;
+	
+						【说明】
+						1：一个位域必须存储在同一个字节中，不能跨两个字节
+						2：由于位域不允许跨两个字节，因此位域的长度不能大于一个字节的长度，也就是说不能超过8位二进位
+						3：位域可以是无名位域，这时它只用来作填充或调整位置
+						
+						
+			3）结构体空间
+						#include <stdio.h>
+
+						typedef struct
+						{
+							unsigned char a;
+							unsigned int  b;
+							unsigned char c;
+						} debug_size1_t;
+						typedef struct
+						{
+							unsigned char a;
+							unsigned char b;
+							unsigned int  c;
+						} debug_size2_t;
+
+						int main(void)
+						{
+							printf("debug_size1_t size=%lu,debug_size2_t size=%lu\r\n", sizeof(debug_size1_t), sizeof(debug_size2_t));
+							return 0;
+						}
+						编译执行输出结果：
+						debug_size1_t size=12,debug_size2_t size=8
+						
+						结构体占用存储空间,以32位机为例
+						 1.debug_size1_t 存储空间分布为a(1byte)+空闲(3byte)+b(4byte)+c(1byte)+空闲(3byte)=12(byte)。
+						 1.debug_size2_t 存储空间分布为a(1byte)+b(1byte)+空闲(2byte)+c(4byte)=8(byte)。
+						 
+十八：共用体
+		--共用体是一种特殊的数据类型，允许您在相同的内存位置存储不同的数据类型，为了定义共用体，您必须使用 union 语句，方式与定义结构类似
+					union Data
+					{
+					   int i;
+					   float f;
+					   char  str[20];
+					} data;
+	
+				共用体占用的内存应足够存储共用体中最大的成员
+					#include <stdio.h>
+					#include <string.h>
+					 
+					union Data
+					{
+					   int i;
+					   float f;
+					   char  str[20];
+					};
+					 
+					int main( )
+					{
+					   union Data data;        
+					 
+					   printf( "Memory size occupied by data : %d\n", sizeof(data));
+					 
+					   return 0;
+					}
+					
+				当上面的代码被编译和执行时，它会产生下列结果：
+					Memory size occupied by data : 20
+					
+					
+				访问共用体成员: 成员访问运算符（.）
+	
+					#include <stdio.h>
+					#include <string.h>
+					 
+					union Data
+					{
+					   int i;
+					   float f;
+					   char  str[20];
+					};
+					 
+					int main( )
+					{
+					   union Data data;        
+					 
+					   data.i = 10;
+					   data.f = 220.5;
+					   strcpy( data.str, "C Programming");
+					 
+					   printf( "data.i : %d\n", data.i);
+					   printf( "data.f : %f\n", data.f);
+					   printf( "data.str : %s\n", data.str);
+					 
+					   return 0;
+					}
+					
+					当上面的代码被编译和执行时，它会产生下列结果：
+					data.i : 1917853763
+					data.f : 4122360580327794860452759994368.000000
+					data.str : C Programming
+					
+				在这里，我们可以看到共用体的 i 和 f 成员的值有损坏，因为最后赋给变量的值占用了内存位置，这也是 str 成员能够完好输出的原因	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+十九：位域
+		--一种更好的利用内存空间的方式			
+					
+					#include <stdio.h>
+					#include <string.h>
+
+					/* 定义简单的结构 */
+					struct
+					{
+					  unsigned int widthValidated;
+					  unsigned int heightValidated;
+					} status1;
+
+					/* 定义位域结构 */
+					struct
+					{
+					  unsigned int widthValidated : 1;
+					  unsigned int heightValidated : 1;
+					} status2;
+					 
+					int main( )
+					{
+					   printf( "Memory size occupied by status1 : %d\n", sizeof(status1));
+					   printf( "Memory size occupied by status2 : %d\n", sizeof(status2));
+
+					   return 0;
+					}
+					当上面的代码被编译和执行时，它会产生下列结果：
+					Memory size occupied by status1 : 8
+					Memory size occupied by status2 : 4	
+					
+					
+二十：typrdef
+		--可以使用它来为类型取一个新的名字
+			1）typedef 仅限于为类型定义符号名称，#define 不仅可以为类型定义别名，也能为数值定义别名
+			2）typedef 是由编译器执行解释的，#define 语句是由预编译器进行处理的。
+			
+			
+			typedef 与 #define 的区别
+			
+			（1）#define可以使用其他类型说明符对宏类型名进行扩展，但对 typedef 所定义的类型名却不能这样做。例如：
+			#define INTERGE int
+			unsigned INTERGE n;  //没问题
+			typedef int INTERGE;
+			unsigned INTERGE n;  //错误，不能在 INTERGE 前面添加 unsigned
+			
+			（2） 在连续定义几个变量的时候，typedef 能够保证定义的所有变量均为同一类型，而 #define 则无法保证。例如：
+			#define PTR_INT int *
+			PTR_INT p1, p2;        //p1、p2 类型不相同，宏展开后变为int *p1, p2;
+			typedef int * PTR_INT
+			PTR_INT p1, p2;        //p1、p2 类型相同，它们都是指向 int 类型的指针。
 	
 	
 
