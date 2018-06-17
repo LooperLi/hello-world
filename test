@@ -1,1 +1,204 @@
 
+1. Two Sum
+
+Given an array of integers, return indices of the two numbers such that they add up to a specific target.
+You may assume that each input would have exactly one solution, and you may not use the same element twice.
+Example:
+
+		Given nums = [2, 7, 11, 15], target = 9,
+
+		Because nums[0] + nums[1] = 2 + 7 = 9,
+		return [0, 1].
+		
+		
+ANSWER:
+
+/**
+ * Note: The returned array must be malloced, assume caller calls free().
+ */
+		int* twoSum(int* nums, int numsSize, int target)
+		{
+			int loop_i = 0;
+			int loop_j = 1;
+			static uint a[2];
+			static uint b[2];
+			int c = 0;
+			
+			for (loop_i=0;loop_i<(numsSize-1);loop_i++)
+			{
+				a[0] = *(nums+loop_i);
+				printf("a[0] = %d \r\n",a[0]);
+				
+				for(loop_j=loop_i+1;loop_j<(numsSize);loop_j++)
+				{
+					a[1] = *(nums+loop_j);
+					//printf("a[1] = %d \r\n",a[1]);
+					if( (a[0] +a[1])== target)
+					{
+						c++;
+						break;
+					}
+				}
+				if(c>0)
+				{
+					break;
+				}
+				 
+			}
+			b[0]= loop_i;
+			b[1]= loop_j;
+			return b;
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+2. Add Two Numbers
+
+You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order and each of their nodes contain a single digit. Add the two numbers and return it as a linked list.
+You may assume the two numbers do not contain any leading zero, except the number 0 itself.
+Example 
+Input: (2 -> 4 -> 3) + (5 -> 6 -> 4)
+Output: 7 -> 0 -> 8
+Explanation: 342 + 465 = 807.
+
+
+
+ANSWER:
+
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+
+#include<math.h>
+
+struct ListNode* addTwoNumbers(struct ListNode* l1, struct ListNode* l2) {
+    struct ListNode* t1 = l1;
+    struct ListNode* t2 = l2;
+    struct ListNode* t3;
+    struct ListNode* t4,*t5;
+    // *t3 = (struct ListNode)malloc(sizeof(Node));
+    int a = 0;
+    int b = 0;
+    int c = 0;
+    int d = 0; 
+    int t1last =0;
+    int t2last =0;
+    
+    
+    t3 = (struct ListNode *)malloc(sizeof( struct ListNode));
+    t3->next = NULL;
+    t4 = t3;
+    while((t1->next != NULL)||(t2->next != NULL))
+    {
+        if(t1->next != NULL)
+        {
+            a = t1->val;
+            t1=t1->next;
+        }
+        else if ( t1last == 0)
+        {
+            a = t1->val;
+            t1last ++;
+        }
+        else
+        {
+            a =0;
+        }
+        
+        
+        if(t2->next != NULL)
+        {
+            b = t2->val;
+            t2=t2->next;
+        }
+        else  if ( t2last == 0)
+        {
+            b =t2->val;
+            t2last++;
+        }
+        else
+        {
+            b = 0;
+        }
+        
+        printf("a  =%d  b  =%d\r\n",a,b);
+        c = a+b+d;
+        d = 0;
+        if(c>=10)
+        {
+            d=c/10;
+            c=c%10;
+        }
+        printf("c  =%d  d  =%d\r\n",c,d);
+        t4->val = c;
+        printf("c =%d \r\n",c);
+        t5 = (struct ListNode *)malloc(sizeof( struct ListNode));
+        t4->next = t5;
+        t4 = t5;
+        
+        
+    }
+    printf("t1last 11 =%d  t2last 11 =%d\r\n",t1last,t2last);
+    if(t1->next != NULL)
+    {
+        a = t1->val;
+        t1=t1->next;
+    }
+    else if ( t1last == 0)
+    {
+        a = t1->val;
+        t1last ++;
+    }
+    else
+    {
+        a =0;
+    }
+
+
+    if(t2->next != NULL)
+    {
+        b = t2->val;
+        t2=t2->next;
+    }
+    else  if ( t2last == 0)
+    {
+        b =t2->val;
+        t2last++;
+    }
+    else
+    {
+        b = 0;
+    }
+
+    printf("a 11 =%d  b 11 =%d\r\n",a,b);
+    c = a+b+d;
+    d = 0;
+    if(c>=10)
+    {
+        d=c/10;
+        c=c%10;
+    }
+    t4->val = c;
+    if(d>0)
+    {
+        t5 = (struct ListNode *)malloc(sizeof( struct ListNode));
+        t4->next = t5;
+        t4 = t5;
+        t4->val =d;
+    }
+    t4->next = NULL;
+    printf("c =%d \r\n",c);
+    
+    return t3;
+    
+}
