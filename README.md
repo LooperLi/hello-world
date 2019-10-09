@@ -1,7 +1,4 @@
-# hello-world
-a single repository
-msi i hope rng can win the kzoom
-lazyman1111111
+# hello-world 
 
 一：
     1）文本编译器
